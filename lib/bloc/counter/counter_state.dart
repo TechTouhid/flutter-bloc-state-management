@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'counter_bloc.dart';
 
 // using equatable we can compare two instance without
@@ -12,6 +13,19 @@ class CounterState extends Equatable {
   // in the props we need to use the instance
   @override
   List<Object> get props => [counterValue];
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'counterValue': counterValue,
+    };
+  }
+
+  // from json serializer
+  factory CounterState.fromMap(Map<String, dynamic> map) {
+    return CounterState(
+      counterValue: map['counterValue'] as int,
+    );
+  }
 }
 
 class CounterInitial extends CounterState {

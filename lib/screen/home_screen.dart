@@ -17,7 +17,8 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: BlocListener<CounterBloc, CounterState>(
+              // bloc consumer can do both listen and bloc builder work
+              child: BlocConsumer<CounterBloc, CounterState>(
                 listener: (context, state) {
                   // listen the change here
                   if (state is IncrementState) {
@@ -36,15 +37,12 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                 },
-                child: Center(child: BlocBuilder<CounterBloc, CounterState>(
-                  builder: (context, state) {
-                    return Text(
-                      'Counter value: ${state.counterValue}',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    );
-                  },
-                )),
+                builder: (context, state) {
+                  return Text(
+                    'Counter value: ${state.counterValue}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  );
+                },
               ),
             ),
             SizedBox(

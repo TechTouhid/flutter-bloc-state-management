@@ -1,11 +1,11 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../bloc_imports.dart';
 
 part 'counter_event.dart';
 part 'counter_state.dart';
 
 // bloc takes 2 parameter 1 event and 1 state
-class CounterBloc extends Bloc<CounterEvent, CounterState> {
+class CounterBloc extends HydratedBloc<CounterEvent, CounterState> {
   CounterBloc() : super(CounterInitial()) {
     // make our event here
     // here we should tell what event what should do
@@ -18,5 +18,15 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     on<CounterDecrementEvent>((event, emit) {
       emit(DecrementState(state.counterValue - 1));
     });
+  }
+
+  @override
+  CounterState? fromJson(Map<String, dynamic> json) {
+    return CounterState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(CounterState state) {
+    return state.toMap();
   }
 }
