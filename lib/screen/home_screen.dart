@@ -17,14 +17,35 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: Center(child: BlocBuilder<CounterBloc, CounterState>(
-                builder: (context, state) {
-                  return Text(
-                    'Counter value: ${state.counterValue}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  );
+              child: BlocListener<CounterBloc, CounterState>(
+                listener: (context, state) {
+                  // listen the change here
+                  if (state is IncrementState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Successfully Increased'),
+                        duration: Duration(milliseconds: 300),
+                      ),
+                    );
+                  } else if (state is DecrementState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Successfully Decremented'),
+                        duration: Duration(milliseconds: 300),
+                      ),
+                    );
+                  }
                 },
-              )),
+                child: Center(child: BlocBuilder<CounterBloc, CounterState>(
+                  builder: (context, state) {
+                    return Text(
+                      'Counter value: ${state.counterValue}',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    );
+                  },
+                )),
+              ),
             ),
             SizedBox(
               height: 20,
